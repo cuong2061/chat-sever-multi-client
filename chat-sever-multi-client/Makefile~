@@ -1,9 +1,9 @@
 CC = g++
-CFLAGS = -c -Wall
-LFLAGS =
+DEBUG = -g
+CFLAGS = -Wall -c $(DEBUG)
+LFLAGS = -Wall $(DEBUG)
 SRC =src/main.cpp
-HEADER= -I
-OBJS=$(SRC:.c=.o)
+OBJS=$(SRC:.cpp=.o)
 EXE = chat
 
 all: $(EXE)
@@ -11,8 +11,9 @@ all: $(EXE)
 $(EXE): $(OBJS)
 	$(CC) $(LFLAGS) $(OBJS) -o $@
 	
-.c.o:
-	$(CC) $(CFLAGS) -o $@ $< -I
+src/%.o : src/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	rm src/*.o
 	rm $(EXE)
