@@ -47,8 +47,13 @@ void Server::listensock()
 void Server::acceptsock()
 {	
 	clilen = sizeof(cli_addr);
-	cout << "accept is running" << endl;
 	newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+
+	struct hostent *hostname = NULL;
+	u_long addr = inet_addr(inet_ntoa(cli_addr.sin_addr));
+	hostname = gethostbyaddr((char*)&addr, 4, AF_INET);
+	string s(hostname->h_name);
+	clientname = s;
 	if(newsockfd < 0)
 	{
 		error("ERROR on accept");
@@ -58,14 +63,13 @@ void Server::acceptsock()
 void Server::recvsock()
 {
 	int tmp;
-	cout << "recv" << endl;
 	bzero(buffer, 256);
 	tmp = read(newsockfd, buffer, 255);
 	if(tmp < 0)
 	{
 		error("ERROR reading from socket");
 	}
-	cout << "Client: " << buffer;
+	cout << clientname << ": " << buffer;
 }
 
 void Server::sendsock()
