@@ -2,8 +2,8 @@ CC = g++
 DEBUG = -g
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
-SRC =src/main.cpp
-OBJ=main.o
+SRC =src/main.cpp src/server.cpp
+OBJ=main.o server.o
 EXE = chat
 OBJ_PATH := obj/
 
